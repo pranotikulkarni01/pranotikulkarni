@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Item Selector</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f8;
+            text-align: center;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            margin: 50px auto;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+
+        input {
+            width: 90%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #result {
+            margin-top: 15px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Smart Item Selector</h2>
+
+    <input type="number" id="capacity" placeholder="Enter Budget">
+
+    <input type="text" id="weights" placeholder="Weights (e.g. 2,3,5)">
+
+    <input type="text" id="values" placeholder="Values (e.g. 10,20,30)">
+
+    <button onclick="solve()">Calculate</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+function solve() {
+    let capacity = parseInt(document.getElementById("capacity").value);
+    let weights = document.getElementById("weights").value.split(",").map(Number);
+    let values = document.getElementById("values").value.split(",").map(Number);
+
+    if (weights.length !== values.length) {
+        document.getElementById("result").innerText = "Weights & Values must match!";
+        return;
+    }
+
+    let n = weights.length;
+    let dp = new Array(capacity + 1).fill(0);
+
+    for (let i = 0; i < n; i++) {
+        for (let w = capacity; w >= weights[i]; w--) {
+            dp[w] = Math.max(dp[w], values[i] + dp[w - weights[i]]);
+        }
+    }
+
+    document.getElementById("result").innerText =
+        "Maximum Value: " + dp[capacity];
+}
+</script>
+
+</body>
+</html>

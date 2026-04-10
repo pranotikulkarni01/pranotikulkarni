@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Similarity Checker</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input {
+            padding: 10px;
+            margin: 10px;
+            width: 250px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: blue;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>✨ Smart Text Comparator</h1>
+<p>Check how similar two texts are</p>
+
+<input type="text" id="inputA" placeholder="Enter first text"><br>
+<input type="text" id="inputB" placeholder="Enter second text"><br>
+
+<button onclick="compareTexts()">Check Similarity</button>
+
+<h3 id="result"></h3>
+
+<script>
+function compareTexts() {
+
+    let a = document.getElementById("inputA").value;
+    let b = document.getElementById("inputB").value;
+
+    if (a.trim() === "" || b.trim() === "") {
+        document.getElementById("result").innerText = "⚠ Please enter both texts!";
+        return;
+    }
+
+    a = a.toLowerCase();
+    b = b.toLowerCase();
+
+    let match = 0;
+    let minLen = Math.min(a.length, b.length);
+
+    for (let i = 0; i < minLen; i++) {
+        if (a[i] === b[i]) {
+            match++;
+        }
+    }
+
+    let maxLen = Math.max(a.length, b.length);
+    let similarity = (match / maxLen).toFixed(2);
+
+    document.getElementById("result").innerText =
+        "Similarity: " + similarity;
+}
+</script>
+
+</body>
+</html>
